@@ -13,6 +13,8 @@ import glob
 import re
 import sys
 
+current_python_version = sys.version_info
+
 def error(*objs):
     print("ERROR: ", *objs, file=sys.stderr)
 
@@ -101,7 +103,11 @@ SIGNALS = {
 def signal_bitmask_to_human_readable(bitmask_string):
     signals = []
     bitmask = int(bitmask_string, 16)
-    for signum, signame in SIGNALS.iteritems():
+    if current_python_version[0] == 2:
+        signal_dict = SIGNALS.iteritems()
+    else:
+        signal_dict =  SIGNALS.items()
+    for signum, signame in signal_dict:
         if (bitmask & (1 << (signum - 1))) != 0:
             signals.append(signame)
     return ','.join(signals)
@@ -153,7 +159,11 @@ OUTPUT_HEADERS = {
 
 def print_signal_info(args, pid, max_pid_length):
     output_fmt = "[%%0%ss] %%s: %%s" % max_pid_length
-    for k,v in obtain_signal_info(pid).iteritems():
+    if current_python_version[0] == 2:
+        signal_dict = obtain_signal_info(pid).iteritems()
+    else:
+        signal_dict = obtain_signal_info(pid).items()
+    for k,v in signal_dict:
         if option_enabled(args, k):
             print(output_fmt % \
                 (pid,
