@@ -1,9 +1,10 @@
 # psig
 Print linux process signal information.
+Simple port to python3
 
 ## Set up:
 ```
-curl -O https://raw.githubusercontent.com/erikdw/psig/master/psig
+curl -O https://raw.githubusercontent.com/AlfredArouna/psig/master/psig
 chmod +x psig
 ```
 
